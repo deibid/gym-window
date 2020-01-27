@@ -4,8 +4,6 @@ let pose;
 let bodySkeleton;
 let neuralNetwork;
 
-
-
 const JUMPINGJACK_UP = "u";
 const JUMPINGJACK_DOWN = "d";
 const KEY_MODEL_TRAIN = "t";
@@ -165,7 +163,13 @@ function classificationResult(err, results) {
   if (!err) {
     console.log(results);
     console.log(results[0].label);
-    resultLabel = results[0].label;
+    console.log(results[0].confidence);
+    if (results[0].confidence > 0.7) {
+      resultLabel = results[0].label;
+    } else {
+      resultLabel = "";
+    }
+
   } else {
     console.log(err);
   }

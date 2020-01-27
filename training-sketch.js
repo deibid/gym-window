@@ -52,7 +52,7 @@ function keyPressed() {
   if (key == KEY_MODEL_TRAIN) {
     //train data
     neuralNetwork.normalizeData();
-    neuralNetwork.train({ epochs: 80 }, trainingFinished);
+    neuralNetwork.train({ epochs: 100 }, trainingFinished);
 
   } else if (key == JUMPINGJACK_DOWN || key == JUMPINGJACK_UP) {
 
@@ -65,7 +65,7 @@ function keyPressed() {
       setTimeout(() => {
         console.log('Finished collecting.');
         state = STATES.WAITING;
-      }, 10000);
+      }, 15000);
     }, 3000);
 
   }
