@@ -45,9 +45,9 @@ function setup() {
   neuralNetwork = ml5.neuralNetwork(config);
 
   let modelFiles = {
-    model: '/model/model.json',
-    metadata: '/model/model_meta.json',
-    weights: '/model/model.weights.bin'
+    model: 'model/model.json',
+    metadata: 'model/model_meta.json',
+    weights: 'model/model.weights.bin'
   };
 
   neuralNetwork.load(modelFiles, posesModelLoaded);
