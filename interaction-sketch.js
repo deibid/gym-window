@@ -49,36 +49,6 @@ function setup() {
   };
 
   neuralNetwork.load(modelFiles, posesModelLoaded);
-
-}
-
-
-
-//control training process with keyboard and timers. press the key to train model
-// for pose with a little delay 
-function keyPressed() {
-
-  if (key == KEY_MODEL_TRAIN) {
-    //train data
-    neuralNetwork.normalizeData();
-    neuralNetwork.train({ epochs: 50 }, trainingFinished);
-
-  } else if (key == JUMPINGJACK_DOWN || key == JUMPINGJACK_UP) {
-
-    targetLabel = key;
-
-    //two-callback system to toggle state variable from collecting to waiting
-    setTimeout(() => {
-      console.log(`Collecting data for ${key} pose ...`);
-      state = STATES.COLLECTING;
-      setTimeout(() => {
-        console.log('Finished collecting.');
-        state = STATES.WAITING;
-      }, 3500);
-    }, 2000);
-
-  }
-
 }
 
 function draw() {
@@ -99,71 +69,53 @@ function draw() {
   if (pose) {
 
     //draw a ball in every join
-    for (let i = 0; i < pose.keypoints.length; i++) {
-      let x = pose.keypoints[i].position.x;
-      let y = pose.keypoints[i].position.y;
-      fill(0, 250, 0);
-      ellipse(x, y, 20, 20);
+    // for (let i = 0; i < pose.keypoints.length; i++) {
+    //   let x = pose.keypoints[i].position.x;
+    //   let y = pose.keypoints[i].position.y;
+    //   fill(0, 250, 0);
+    //   ellipse(x, y, 20, 20);
+    // }
+
+    // //draw the skeleton between the points.
+    // for (let i = 0; i < bodySkeleton.length; i++) {
+    //   let partA = bodySkeleton[i][0];
+    //   let partB = bodySkeleton[i][1];
+    //   strokeWeight(4);
+    //   stroke(255);
+    //   line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+    // }
+
+    pop();
+
+    if (state == STATES.READY) {
+      textSize(60);
+      textAlign(CENTER, CENTER);
+      text(`${resultLabel}`, width / 2, height - 20);
     }
 
-    for (let i = 0; i < bodySkeleton.length; i++) {
-      let partA = bodySkeleton[i][0];
-      let partB = bodySkeleton[i][1];
-      strokeWeight(4);
-      stroke(255);
-      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
-    }
-
   }
 
-  pop();
-
-  if (state == STATES.COLLECTING) {
-    textSize(60);
-    textAlign(CENTER, CENTER);
-    text(`${state} for ${targetLabel}`, width / 2, height - 20);
-  }
-
-  if (state == STATES.READY) {
-    textSize(60);
-    textAlign(CENTER, CENTER);
-    text(`${resultLabel}`, width / 2, height - 20);
-  }
 }
 
-
-
-
+//Event called when poseNet finds a pose
 function gotPoses(poses) {
 
-  console.log("got pose");
   //Assume there is only one pose/person. Get that pose and skeleton and store in global variable
   if (poses.length > 0) {
     pose = poses[0].pose;
-    bodySkeleton = poses[0].skeleton;
-    //collect data for NN training
-    if (state == STATES.COLLECTING) {
-      let inputs = flattenPositionArray(pose);
-      let target = [targetLabel];
-      neuralNetwork.addData(inputs, target);
-    }
+    // bodySkeleton = poses[0].skeleton;
 
     if (state == STATES.READY) {
       let inputs = flattenPositionArray(pose);
       neuralNetwork.classify(inputs, classificationResult);
     }
-
   }
 }
 
 
 function classificationResult(err, results) {
 
-  console.log("Classfication ready");
   if (!err) {
-    console.log(results);
-    console.log(results[0].label);
-    console.log(results[0].confidence);
     if (results[0].confidence > 0.7) {
       resultLabel = results[0].label;
     } else {
@@ -200,8 +152,5 @@ function posesModelLoaded() {
   state = STATES.READY;
 }
 
-function trainingFinished() {
-  console.log('model trained');
-  neuralNetwork.save();
-}
+
 
