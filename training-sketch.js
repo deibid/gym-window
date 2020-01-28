@@ -110,9 +110,9 @@ function draw() {
   pop();
 
   if (state == STATES.COLLECTING) {
-    textSize(60);
+    textSize(50);
     textAlign(CENTER, CENTER);
-    text(`${state} for ${targetLabel}`, width / 2, height - 20);
+    text(`${state} for ${targetLabel}`, width / 2, height - 30);
   }
 }
 
