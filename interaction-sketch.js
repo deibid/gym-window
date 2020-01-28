@@ -30,7 +30,7 @@ let targetLabel;
 let resultLabel;
 let playerSequence = "ud";
 let gameScore = 0;
-let scoreToWin = 5;
+let scoreToWin = 8;
 
 //timer to beat the game. Might started delayed due to loading time
 let timer = 20;
