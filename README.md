@@ -3,3 +3,6 @@
 This simple experiment uses computer vision and machine learning to engage users by prompting them to do jumping jacks.
 
 The intended use case is for gyms trying to capture people walking by into the gym and offering them a discount if they succeed in the conditions provided.
+
+Link to deployed app:
+(Link)[https://5e2f831422392d0a53b27ca6--awesome-joliot-1b876a.netlify.com/]
