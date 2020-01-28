@@ -1,3 +1,5 @@
+const debug = false;
+
 let videoGrabber;
 let poseNet;
 let pose;
@@ -134,21 +136,24 @@ function draw() {
     //if there is a pose found...
     if (pose) {
 
-      // draw a ball in every join
-      for (let i = 0; i < pose.keypoints.length; i++) {
-        let x = pose.keypoints[i].position.x;
-        let y = pose.keypoints[i].position.y;
-        fill(0, 250, 0);
-        ellipse(x, y, 20, 20);
-      }
+      if (debug) {
+        // draw a ball in every join
+        for (let i = 0; i < pose.keypoints.length; i++) {
+          let x = pose.keypoints[i].position.x;
+          let y = pose.keypoints[i].position.y;
+          fill(0, 250, 0);
+          ellipse(x, y, 20, 20);
+        }
 
-      //draw the skeleton between the points.
-      for (let i = 0; i < bodySkeleton.length; i++) {
-        let partA = bodySkeleton[i][0];
-        let partB = bodySkeleton[i][1];
-        strokeWeight(4);
-        stroke(255);
-        line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+        //draw the skeleton between the points.
+        for (let i = 0; i < bodySkeleton.length; i++) {
+          let partA = bodySkeleton[i][0];
+          let partB = bodySkeleton[i][1];
+          strokeWeight(4);
+          stroke(255);
+          line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+        }
+
       }
 
       pop();
